@@ -7,6 +7,7 @@ IRC04 is a simple IRC made in python 3. The client uses TKinter as a frontend an
 * Tkinter
 * Threading
 * Time
+
 (Note that most, if not all of these modules are installed by default)
 
 ## To-Do list
