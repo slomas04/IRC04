@@ -1,6 +1,6 @@
 # IRC04
 IRC04 is a simple IRC made in python 3. The client uses TKinter as a frontend and the server currently only uses the command line.
-! kermit https://imgur.com/5mzqChX
+! [kermit] (https://imgur.com/5mzqChX)
 
 ## Prerequisites
 * Python 3 (3.7.3 to be exact)
