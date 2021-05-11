@@ -26,7 +26,7 @@ IRC04 is a simple IRC made in python 3. The client uses TKinter as a frontend an
 * Enter your local IP address (NOT LOCALHOST OR 127.0.0.1)
 * Enter the Server Port
 * All Done!
-* 
+
 ### Client
 * run ```client.py```
 * Enter the server's IP address
