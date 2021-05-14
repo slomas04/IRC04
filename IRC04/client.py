@@ -75,7 +75,6 @@ def recievethread():
         msg = s.recv(1024) #waits to recieve message
         full_msg += msg.decode("utf-8") #decode
         writetost(full_msg) #print
-    print("FUCKING CLOSE AAAA")
 
 text_entry.bind('<Return>', returnPressed)
         
