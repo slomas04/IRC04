@@ -14,8 +14,8 @@ IRC04 is a simple IRC made in python 3. The client uses TKinter as a frontend an
 ## To-Do list
 * ~~Let the client pick and IP and Port~~
 * ~~Let the server pick IP and Port~~
-* Make a server Frontend in TKinter to properly process serverside commands
-* safely close the server
+* ~~Make a server Frontend in TKinter to properly process serverside commands~~
+* ~~safely close the server~~
 * Add a form of encryption for privacy
 * Give IP, Port and Username selection a proper frontend
 * Add more Client and Server commands
