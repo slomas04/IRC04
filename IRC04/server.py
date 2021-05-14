@@ -174,6 +174,8 @@ def returnPressed(event):
         writetost(storedtxt)
         sendAllClients(storedtxt)
 
+
+root.protocol("WM_DELETE_WINDOW", exitRoutine)
 entryBox.bind('<Return>', returnPressed)
 listening = threading.Thread(target=listenThread, args=())
 listening.daemon = True
