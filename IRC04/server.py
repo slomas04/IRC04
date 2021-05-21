@@ -38,7 +38,7 @@ entryBoxLabel.grid(column=0, row=2)
 entryBox = tkinter.Entry(root, width = 105, font = ("Times New Roman",13))
 entryBox.grid(column=0, row=3, columnspan = 2)
 
-MAXBUFFER = 1024
+MAXBUFFER = 512
 
 threadClose = False
 
@@ -57,6 +57,28 @@ s.bind((SERVER_ADDR, SERVER_PORT)) #bind the server to host machine through port
 connectionarr = []
 
 s.listen(5) #listen for connections with a queue size of 10
+
+key = "Y������)b�r��7���V�wuȬ�Xb���GJ,A8����5�Zd���cN����2�K����H�M_��R���0�WO7�� V_���X&bRa+���ϙɚK���a\������!G�,�Kb~{��ll���b�<�R6ҩ ���x}_k�����YmN������/����ٜtuLט%��[�)��VpQnr�Zd���cN�����K����H�M_��R���0�WO7�� V_���X&bRa+���ϙɚK����a\�lol"
+
+# ENCRYPT -----------------
+def doEncrypt(string):
+    #string = string.upper()
+    #key = key.upper()
+    outString = []
+    for i in range(0, len(string)):
+        outString += chr((ord(string[i])) + (ord(key[i])))
+    outString = "".join(outString)
+    return outString
+
+# DECRYPT -----------------
+def doDecrypt(string):
+    #string = string.upper()
+    #key = key.upper()
+    outString = []
+    for i in range(0, len(string)):
+        outString += chr((ord(string[i])) - (ord(key[i])))
+    outString = "".join(outString)
+    return outString
 
 # WRITE TO SERVER LOG -------------
 def writetost(logtext): #writes to the scrolling stack box
@@ -89,16 +111,16 @@ def sendAllClients(message):
         pass #don't bother if nobody is connected
     else:
         for i in range(0, len(connectionarr)):
-            connectionarr[i].sendall(bytes(message, "utf-8")) #iterates through all connected clients and sends them the desired message
+            connectionarr[i].sendall(bytes(doEncrypt(message), "utf-8")) #iterates through all connected clients and sends them the desired message
         
 # CLIENT THREAD --------------------
 def newClientThread(connection, ip, port):
     try:
         connection.settimeout(1)
         welcomemsg = "[SERVER] - Welcome to the Server!\n[SERVER] - For commands, type !04help"
-        connection.sendall(bytes(welcomemsg, "utf-8")) #send welcome message to client
-        username = connection.recv(1024) #take the username from the client
-        username = username.decode("utf-8") #decode
+        connection.sendall(bytes(doEncrypt(welcomemsg), "utf-8")) #send welcome message to client
+        username = connection.recv(512) #take the username from the client
+        username = doDecrypt(username.decode("utf-8")) #decode
         if username == "SERVER":
             connection.close()
         writetoCU(username)
@@ -111,7 +133,7 @@ def newClientThread(connection, ip, port):
                 continue
             except:
                 break
-            full_msg += msg.decode("utf-8") #decode
+            full_msg += doDecrypt(msg.decode("utf-8")) #decode
             if threadClose == False:
                 if full_msg == "!04exit":
                     writetost("[CONSOLE] - " + str(ip) + ":" + str(port) + " Username = " + username + " Has Disconnected from the server")
