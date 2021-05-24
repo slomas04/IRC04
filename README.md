@@ -8,6 +8,7 @@ IRC04 is a simple, Encrypted Chat Client/Server made in python 3. The client use
 * Tkinter
 * Threading
 * Time
+* os
 
 (Note that most, if not all of these modules are installed by default)
 
