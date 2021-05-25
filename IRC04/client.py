@@ -13,18 +13,22 @@ import threading
 import os
 import tkinter as tk
 import tkinter.scrolledtext as st
+from tkinter import simpledialog
 
 key = 'Y������)b�r��7���V�wuȬ�Xb���GJ,A8����5�Zd���cN����2�K����H�M_��R���0�WO7�� V_���X&bRa+���ϙɚK���a\������!G�,�Kb~{��ll���b�<�R6ҩ ���x}_k�����YmN������/����ٜtuLט%��[�)��VpQnr�Zd���cN�����K����H�M_��R���0�WO7�� V_���X&bRa+���ϙɚK����a\�lol'
 
-TARGET_IP = input("Enter the server IP\n>>> ")
+# POPUPS -------------------------
+popup = tk.Tk()
+popup.withdraw()
+TARGET_IP = simpledialog.askstring(title="Input", prompt="Enter the server IP:")
 while True:
     try:
-        TARGET_PORT = int(input("Enter the server port\n>>> "))
+        TARGET_PORT = int(simpledialog.askstring(title="Input", prompt="Enter the server port:"))
         break
     except:
         print("Not an Int!")
-
-USERNAME = input("What is your username?\n>>> ")
+USERNAME = simpledialog.askstring(title="Input", prompt="What is your username?")
+popup.destroy()
 
 # ENCRYPT -----------------
 def doEncrypt(string):

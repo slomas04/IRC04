@@ -13,7 +13,21 @@ import time
 import threading
 import tkinter
 import tkinter.scrolledtext as st
+from tkinter import simpledialog
 import os
+
+# POPUPS -------------------------
+popup = tkinter.Tk()
+popup.withdraw()
+SERVER_ADDR = simpledialog.askstring(title="Input", prompt="Enter your Local IP:")
+while True:
+    try:
+        SERVER_PORT = int(simpledialog.askstring(title="Input", prompt="Enter your server port:"))
+        break
+    except:
+        print("Not an Int!")
+popup.destroy()
+
 
 # TKINTER DEFS --------------------
 
@@ -42,19 +56,11 @@ MAXBUFFER = 512
 
 threadClose = False
 
-SERVER_ADDR = input("Enter your local IP\n>>> ")
-while True:
-    try:
-        SERVER_PORT = int(input("Enter the server port\n>>> "))
-        break
-    except:
-        print("Not an Int!")
-
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #create socket object using IPV4 and TCP respectively
 
 s.bind((SERVER_ADDR, SERVER_PORT)) #bind the server to host machine through port 
 
-connectionarr = []
+connectionarr = [] #array of all connections
 
 s.listen(5) #listen for connections with a queue size of 10
 
@@ -82,36 +88,41 @@ def doDecrypt(string):
 
 # WRITE TO SERVER LOG -------------
 def writetost(logtext): #writes to the scrolling stack box
-    sLog.configure(state ='normal') #for this to work, the text area is temporarily enabled
-    sLog.insert('end', "\n" + logtext) #text is inserted
-    sLog.configure(state ='disabled')
-    sLog.see("end")#then the text editing is disabled. This doesn't work perfectly but it'll do for now.
+    if threadClose == False:
+        sLog.configure(state ='normal') #for this to work, the text area is temporarily enabled
+        sLog.insert('end', "\n" + logtext) #text is inserted
+        sLog.configure(state ='disabled')
+        sLog.see("end")#then the text editing is disabled. This doesn't work perfectly but it'll do for now.
     
 # WRITE TO CONNECTED USERS --------
 def writetoCU(user): #writes to the scrolling stack box
-    cLog.configure(state ='normal') #for this to work, the text area is temporarily enabled
-    cLog.insert('end', "\n" + user) #text is inserted
-    cLog.configure(state ='disabled')
-    cLog.see("end")#then the text editing is disabled. This doesn't work perfectly but it'll do for now.
+    if threadClose == False:
+        cLog.configure(state ='normal') #for this to work, the text area is temporarily enabled
+        cLog.insert('end', "\n" + user) #text is inserted
+        cLog.configure(state ='disabled')
+        cLog.see("end")#then the text editing is disabled. This doesn't work perfectly but it'll do for now.
     
 # REMOVE FROM CONNECTED USERS -----
 def remfromCU(user):
-    user = "\n" + user
-    text = cLog.get("1.0",tkinter.END)
-    text = text.replace(user, "")
-    cLog.configure(state ='normal')
-    cLog.delete('1.0', tkinter.END)
-    cLog.insert(tkinter.END, text)
-    cLog.configure(state ='disabled')
-    cLog.see("end")
+    if threadClose == False:
+        user = "\n" + user
+        text = cLog.get("1.0",tkinter.END)
+        text = text.replace(user, "")
+        cLog.configure(state ='normal')
+        cLog.delete('1.0', tkinter.END)
+        cLog.insert(tkinter.END, text)
+        cLog.configure(state ='disabled')
+        cLog.see("end")
+        
 
 # SEND TO ALL CONNECTED CLIENTS ----
 def sendAllClients(message):
-    if len(connectionarr) == 0:
-        pass #don't bother if nobody is connected
-    else:
-        for i in range(0, len(connectionarr)):
-            connectionarr[i].sendall(bytes(doEncrypt(message), "utf-8")) #iterates through all connected clients and sends them the desired message
+    if threadClose == False:
+        if len(connectionarr) == 0:
+            pass #don't bother if nobody is connected
+        else:
+            for i in range(0, len(connectionarr)):
+                connectionarr[i].sendall(bytes(doEncrypt(message), "utf-8")) #iterates through all connected clients and sends them the desired message
         
 # CLIENT THREAD --------------------
 def newClientThread(connection, ip, port):
