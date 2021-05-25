@@ -18,7 +18,7 @@ IRC04 is a simple, Encrypted Chat Client/Server made in python 3. The client use
 * ~~Make a server Frontend in TKinter to properly process serverside commands~~
 * ~~safely close the server~~
 * ~~Add a form of encryption for privacy~~
-* Give IP, Port and Username selection a proper frontend
+* ~~Give IP, Port and Username selection a proper frontend~~
 * Add more Client and Server commands
 
 ## How to run
