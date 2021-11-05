@@ -14,7 +14,8 @@ import os
 import tkinter as tk
 import tkinter.scrolledtext as st
 from tkinter import simpledialog
-
+from clientModules.encryption import doDecrypt, doEncrypt
+from clientModules.write import writetost
 key = 'Y������)b�r��7���V�wuȬ�Xb���GJ,A8����5�Zd���cN����2�K����H�M_��R���0�WO7�� V_���X&bRa+���ϙɚK���a\������!G�,�Kb~{��ll���b�<�R6ҩ ���x}_k�����YmN������/����ٜtuLט%��[�)��VpQnr�Zd���cN�����K����H�M_��R���0�WO7�� V_���X&bRa+���ϙɚK����a\�lol'
 
 # POPUPS -------------------------
@@ -29,26 +30,6 @@ while True:
         print("Not an Int!")
 USERNAME = simpledialog.askstring(title="Input", prompt="What is your username?")
 popup.destroy()
-
-# ENCRYPT -----------------
-def doEncrypt(string):
-    #string = string.upper()
-    #key = key.upper()
-    outString = []
-    for i in range(0, len(string)):
-        outString += chr((ord(string[i])) + (ord(key[i])))
-    outString = "".join(outString)
-    return outString
-
-# DECRYPT -----------------
-def doDecrypt(string):
-    #string = string.upper()
-    #key = key.upper()
-    outString = []
-    for i in range(0, len(string)):
-        outString += chr((ord(string[i])) - (ord(key[i])))
-    outString = "".join(outString)
-    return outString
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #create socket object using IPV4 and TCP respectively
 rThreadRun = True
@@ -72,12 +53,6 @@ def exitRoutine():
 
 def utf8len(a):
     return len(a.encode('utf-8')) #returns length of string in unicode
-
-def writetost(logtext): #writes to the scrolling stack box
-    text_area.configure(state ='normal') #for this to work, the text area is temporarily enabled
-    text_area.insert('end', "\n" + logtext) #text is inserted
-    text_area.configure(state ='disabled')
-    text_area.see("end")#then the text editing is disabled. This doesn't work perfectly but it'll do for now.
 
 def returnPressed(event):
     if text_entry.get() == "":
